@@ -34,14 +34,14 @@ function send_post_to_telegram($post_id) {
     }
 
     // مقدار توکن مربوط به ربات را وارد کنید
-        $bot_token = 'YOUR_BOT_TOKEN_HERE';
+        $bot_token = 'محل قراردادن توکن درافتی از بات فادر';
 
   //برای هاست های داخل ایران لینک زیر را با توجه به توضیحات ریپازیتوری پایین به لینک کلودفلر تغییر بدید 
   //https://github.com/soheylfarzane/TelegramByapss
-    $api_url = 'https://api.telegram.org/bot' . $bot_token;
+    $api_url = 'https://digisaminsefaresh.digisamin.workers.dev/bot' . $bot_token;
     
     // لیست کانال‌ها را تنظیم کنید
-    $channels = array('@yourchannel');
+    $channels = array('@digisaminsefaresh');
 
     foreach ($channels as $channel) {
         $caption = "📝 " . $post_title . "\n\n🔗 مشاهده مطلب کامل:\n" . $post_url;
@@ -83,13 +83,13 @@ function send_post_to_telegram($post_id) {
 }
 
 // تغییر این مقدار برای نوع پست دلخواه
-add_action('publish_nias_requests', 'send_post_to_telegram');
+add_action('publish_post', 'send_post_to_telegram');
 
 /**
  * نمایش وضعیت ارسال به تلگرام در متاباکس
  */
 function add_telegram_status_meta_box() {
-    add_meta_box('telegram_status', 'وضعیت ارسال به تلگرام', 'telegram_status_meta_box_callback', 'nias_requests', 'side');
+    add_meta_box('telegram_status', 'وضعیت ارسال به تلگرام', 'telegram_status_meta_box_callback', 'post', 'side');
 }
 add_action('add_meta_boxes', 'add_telegram_status_meta_box');
 
@@ -102,7 +102,7 @@ function telegram_status_meta_box_callback($post) {
  * افزودن دکمه ارسال مجدد در صفحه ویرایش پست
  */
 function add_resend_telegram_button($post) {
-    if ($post->post_type === 'nias_requests' && $post->post_status === 'publish') {
+    if ($post->post_type === 'post' && $post->post_status === 'publish') {
         ?>
         <div style="margin: 10px 0;">
             <button type="button" class="button" onclick="resendToTelegram(<?php echo $post->ID; ?>)">
